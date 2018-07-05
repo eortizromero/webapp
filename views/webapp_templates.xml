@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<template id="index" name="Index Page">
+&lt;!DOCTYPE html&gt;
+<html>
+    <head>
+        <title t-esc="title or 'Website'" />
+        <style>body{background: #282828; color:#FFF;}</style>
+        <script type="text/javascript">
+            var odoo = {
+                csrf_token: "<t t-esc="request.csrf_token(NOne)" />"
+            };
+        </script>
+        <t t-call-assets="web.assets_common" t-css="false"/>
+        <t t-call-assets="web.assets_backend" t-css="false"/>
+        <t t-call-assets="web_editor.summernote" t-css="false"/>
+        <t t-call-assets="web_editor.assets_editor" t-css="false"/>
+        <t t-call-assets="webapp.assets" />
+
+        <script type="text/javascript">
+            odoo.define('web.web_client', function(require){
+                var WebClient = require('web.AbstractWebClient');
+                var web_client = new WebClient();
+
+                web_client._title_changed = function(){};
+                web_client.show_application = function(){
+                    //return web_client.action_manager.do_action('app.ui');
+                };
+                $(function(){
+                    web_client.setElement($(document.body));
+                    web_client.start();
+                });
+                return web_client;
+            });
+        </script>
+    </head>
+    <body>
+        <div class="o_main_content" />
+    </body>
+</html>
+</template>
+</odoo>
